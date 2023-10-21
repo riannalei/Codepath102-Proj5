@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useMemo } from "react";
 import Card from "./Card";
 
-const CLIENT_ID = "95TLLWq3i5Zug5R33a5BSQiTqED3zwKUgQYNSJseWBGU6X4pHJ";
-const CLIENT_SECRET = "hhUh3IH9QSwEJ2ZgY8lb7MDjEKRQIGw3xtOHbF5X";
+const CLIENT_ID = "XoSmE66nWiv8QdGAjPmgaYgzH0paqc43vXG6bSOYwl4x1gDyoj";
+const CLIENT_SECRET = "7udirf6TDuIsCdYczhcHNtxBsNT6L1VDnUKqL1go";
 
 async function fetchAccessToken() {
   const response = await fetch("https://api.petfinder.com/v2/oauth2/token", {
