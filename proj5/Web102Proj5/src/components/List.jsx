@@ -1,5 +1,8 @@
+// List.jsx
 import React, { useEffect, useState, useMemo } from "react";
 import Card from "./Card";
+import DataVisualization from "./DataVisualization"; // Ensure this component is created
+import { useNavigate } from "react-router-dom"; // Import for programmatic navigation
 
 const CLIENT_ID = "XoSmE66nWiv8QdGAjPmgaYgzH0paqc43vXG6bSOYwl4x1gDyoj";
 const CLIENT_SECRET = "7udirf6TDuIsCdYczhcHNtxBsNT6L1VDnUKqL1go";
@@ -39,6 +42,8 @@ function List() {
   const [genderFilter, setGenderFilter] = useState("");
   const [breedFilter, setBreedFilter] = useState("");
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     async function fetchData() {
       const fetchedToken = await fetchAccessToken();
@@ -70,36 +75,39 @@ function List() {
       );
   }, [animals, searchTerm, typeFilter, ageFilter, genderFilter, breedFilter]);
 
-  const totalAnimals = filteredAnimals.length;
-  const youngAnimalsCount = filteredAnimals.filter(
-    (animal) => animal.age === "young"
-  ).length;
-  const maleAnimalsCount = filteredAnimals.filter(
-    (animal) => animal.gender === "Male"
-  ).length;
-  const femaleAnimalsCount = filteredAnimals.filter(
-    (animal) => animal.gender === "Female"
-  ).length;
-  const uniqueBreeds = new Set(
-    filteredAnimals.map((animal) => animal.breeds.primary)
-  ).size;
+  const visualizationData = useMemo(() => {
+    const genderData = animals.reduce((acc, animal) => {
+      const gender = animal.gender || "Unknown";
+      acc[gender] = (acc[gender] || 0) + 1;
+      return acc;
+    }, {});
 
-  const availableBreeds = Array.from(
-    new Set(animals.map((animal) => animal.breeds.primary))
-  );
+    return Object.entries(genderData).map(([key, value]) => ({
+      name: key,
+      value,
+    }));
+  }, [animals]);
+
+  // Handlers for dropdown changes
+  const handleTypeFilterChange = (e) => setTypeFilter(e.target.value);
+  const handleAgeFilterChange = (e) => setAgeFilter(e.target.value);
+  const handleGenderFilterChange = (e) => setGenderFilter(e.target.value);
+  const handleBreedFilterChange = (e) => setBreedFilter(e.target.value);
+
+  // Function to navigate to the Detail view of an animal
+  const handleCardClick = (animalId) => {
+    navigate(`/animal/${animalId}`);
+  };
 
   return (
     <div>
-      {/* Summary statistics */}
+      <DataVisualization data={visualizationData} />
+
       <div>
-        <p>Total animals: {totalAnimals}</p>
-        <p>Number of young animals: {youngAnimalsCount}</p>
-        <p>Number of male animals: {maleAnimalsCount}</p>
-        <p>Number of female animals: {femaleAnimalsCount}</p>
-        <p>Unique breeds: {uniqueBreeds}</p>
+        <p>Total animals: {filteredAnimals.length}</p>
+        {/* ...other summary statistics */}
       </div>
 
-      {/* Search bar */}
       <input
         type="text"
         placeholder="Search by name..."
@@ -107,48 +115,54 @@ function List() {
         onChange={(e) => setSearchTerm(e.target.value)}
       />
 
-      {/* Filters */}
-      <select
-        value={typeFilter}
-        onChange={(e) => setTypeFilter(e.target.value)}
-      >
+      <select value={typeFilter} onChange={handleTypeFilterChange}>
         <option value="">All Types</option>
-        <option value="dog">Dog</option>
-        <option value="cat">Cat</option>
-        {/* ... other types ... */}
+        {Array.from(new Set(animals.map((animal) => animal.type))).map(
+          (type, index) => (
+            <option key={index} value={type}>
+              {type}
+            </option>
+          )
+        )}
       </select>
 
-      <select value={ageFilter} onChange={(e) => setAgeFilter(e.target.value)}>
+      <select value={ageFilter} onChange={handleAgeFilterChange}>
         <option value="">All Ages</option>
-        <option value="young">Young</option>
-        <option value="adult">Adult</option>
-        {/* ... other ages ... */}
+        {Array.from(new Set(animals.map((animal) => animal.age))).map(
+          (age, index) => (
+            <option key={index} value={age}>
+              {age}
+            </option>
+          )
+        )}
       </select>
 
-      <select
-        value={genderFilter}
-        onChange={(e) => setGenderFilter(e.target.value)}
-      >
+      <select value={genderFilter} onChange={handleGenderFilterChange}>
         <option value="">All Genders</option>
-        <option value="male">Male</option>
-        <option value="female">Female</option>
+        {Array.from(new Set(animals.map((animal) => animal.gender))).map(
+          (gender, index) => (
+            <option key={index} value={gender}>
+              {gender}
+            </option>
+          )
+        )}
       </select>
 
-      <select
-        value={breedFilter}
-        onChange={(e) => setBreedFilter(e.target.value)}
-      >
+      <select value={breedFilter} onChange={handleBreedFilterChange}>
         <option value="">All Breeds</option>
-        {availableBreeds.map((breed) => (
-          <option value={breed.toLowerCase()} key={breed}>
+        {Array.from(
+          new Set(animals.map((animal) => animal.breeds.primary))
+        ).map((breed, index) => (
+          <option key={index} value={breed}>
             {breed}
           </option>
         ))}
       </select>
 
-      {/* Animal list */}
       {filteredAnimals.map((animal) => (
-        <Card key={animal.id} animal={animal} />
+        <div key={animal.id} onClick={() => handleCardClick(animal.id)}>
+          <Card animal={animal} />
+        </div>
       ))}
     </div>
   );
