@@ -1,41 +1,37 @@
-# Web Development Project 5 - *Dog Finder*
+# Web Development Project 6 - *Dogfinder app*
 
 Submitted by: **Rianna Lei**
 
-This web app: **this is a dog finder to find dogs witht the specific description**
+This web app: **This is an app to find dogs**
 
-Time spent: **5** hours spent in total
+Time spent: **6** hours spent in total
 
 ## Required Features
 
 The following **required** functionality is completed:
 
-- [x] **The list displays a list of data fetched using an API call**
-- [x] **Data uses the useEffect React hook and async/await syntax**
-- [x] **The app dashboard includes at least three summary statistics about the data such as**
-  - [x] *insert details*
-- [x] **A search bar allows the user to search for an item in the fetched data**
-- [x] **Multiple different filters (2+) allow the user to filter items in the database by specified categories**
+- [x] **The app includes at least one unique chart developed using the fetched data that tell an interesting story**
+- [x] **Clicking on an item in the list view displays more details about it**
+- [x] **Clicking on an item has a direct, unique link to that item's detail view page**
+
 
 The following **optional** features are implemented:
 
-- [ ] Multiple filters can be applied simultaneously
-- [ ] Filters use different input types such as a text input, a selection, or a slider
-- [ ] The user can enter specific bounds for filter values
+- [ ] The site's customized dashboard contains more content that explains what is interesting about the data
+- [ ] The site allows users to toggle between different data visualizations
 
 The following **additional** features are implemented:
 
-* [x] List anything else that you added to improve the site's functionality!
-* [x] css!
+* [ ] List anything else that you added to improve the site's functionality!
 
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
 
-<img src='https://submissions.us-east-1.linodeobjects.com/web102/0FeI6rsH.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://submissions.us-east-1.linodeobjects.com/web102/oumt_W0f.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 <!-- Replace this with whatever GIF tool you used! -->
-GIF created with ...  none!
+GIF created with ...  none
 <!-- Recommended tools:
 [Kap](https://getkap.co/) for macOS
 [ScreenToGif](https://www.screentogif.com/) for Windows
@@ -43,7 +39,7 @@ GIF created with ...  none!
 
 ## Notes
 
-The biggest challenge for this project was making the different filters for the dogs and just getting that to work. 
+it was difficult to make the features and it was hard to tackle. 
 
 ## License
 
